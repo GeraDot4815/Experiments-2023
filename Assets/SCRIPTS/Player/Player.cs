@@ -7,6 +7,7 @@ public class Player : Creature
     public static Player Instance;
     private void Awake()
     {
+        base.Awake();
         Instance = this;
     }
 }
