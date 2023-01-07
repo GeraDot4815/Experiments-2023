@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 [RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
@@ -5,10 +6,13 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))]
 public class Creature : MonoBehaviour
 {
-    [SerializeField] protected float maxHP;
-    protected float factHP;
+    [SerializeField] protected int maxHP;
+    protected int factHP;
 
     [SerializeField] protected float movingSpeed=0;
+
+    [SerializeField] protected ElementTypes.Elements weakness;
+    [SerializeField] protected ElementTypes.Elements strengths;
 
     protected Rigidbody2D rb;
     protected BoxCollider2D collider2D;
@@ -18,7 +22,7 @@ public class Creature : MonoBehaviour
     public bool canMove;
 
     public event OnChangeHP onChangeHP;
-    public delegate void OnChangeHP(float factHP, float maxHP);
+    public delegate void OnChangeHP(int factHP, int maxHP);
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -53,8 +57,8 @@ public class Creature : MonoBehaviour
             if (rb.velocity != Vector2.zero) animator.SetBool("IsMove", true);
             else animator.SetBool("IsMove", false);
 
-            if (rb.velocity.x >= 0) spriteRenderer.flipX = false;
-            else spriteRenderer.flipX = true;
+            if (rb.velocity.x > 0) spriteRenderer.flipX = false;
+            else if (rb.velocity.x < 0) spriteRenderer.flipX = true;
         }
     }
     public void StopMoving()
@@ -75,14 +79,14 @@ public class Creature : MonoBehaviour
         canMove = true;
     }
     #region HP Change
-    public virtual void GetDamage(float damage)
+    public virtual void GetDamage(int damage)
     {
         Debug.Log(gameObject.name+" дн "+factHP.ToString());
         factHP -= damage;
         onChangeHP?.Invoke(factHP, maxHP);
         Debug.Log(gameObject.name + " оняке " + factHP.ToString());
     }
-    public virtual void PlusHP(float heal)
+    public virtual void PlusHP(int heal)
     {
         Debug.Log(gameObject.name + " дн " + factHP.ToString());
         factHP += heal;

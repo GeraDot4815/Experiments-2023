@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8407212386380232269}
   - component: {fileID: 7309057771640203665}
   - component: {fileID: 1515237776993091134}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: kostya
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -123,6 +123,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHP: 10
   movingSpeed: 0.8
+  weakness: 0
+  strengths: 0
   canMove: 1
   startState: {fileID: 11400000, guid: 25122b1e9ec20634a905ebb7da130a78, type: 2}
   baseDamage: 1
@@ -133,10 +135,10 @@ MonoBehaviour:
   stayState: {fileID: 11400000, guid: 63c4802bc9e80314693e170bbbef83a7, type: 2}
   seePlayerDist: 5
   runDist: 3
-  attackDist: 0.8
-  attackRadius: 1
-  percentChanceOfPassive: 20
-  percentChanceOfStay: 50
+  attackDist: 1.1
+  attackRadius: 1.3
+  percentChanceOfPassive: 15
+  percentChanceOfStay: 60
   attackZone: {fileID: 9118002711718852263}
 --- !u!50 &7309057771640203665
 Rigidbody2D:
@@ -195,7 +197,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9118002711718852263}
   - component: {fileID: 8568231472914594862}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: kostyaCUM
   m_TagString: Untagged
   m_Icon: {fileID: 0}

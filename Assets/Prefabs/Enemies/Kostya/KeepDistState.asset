@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: KeepDistState
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
-  speedCoof: 1.5
+  speedCoof: 2.5
   minDist: 0.8
   targetDistance: 5

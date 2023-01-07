@@ -1,18 +1,37 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
-public class Weapon : MonoBehaviour
+[RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent (typeof(Animator))]
+public abstract class Weapon : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] protected int baseDamage;
+    [SerializeField] protected ElementTypes.Elements damageType;
+    [SerializeField] protected float delay;
+    protected float timeBtwAttack;
+    protected Animator animator;
+    protected Player player;
+    protected Rigidbody2D playerRb;
+    protected SpriteRenderer spriteRenderer;
+    protected virtual void Start()
     {
-        
-    }
+        player = Player.Instance;
+        playerRb = player.GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        timeBtwAttack = 0;
     }
+    protected virtual void Update()
+    {
+        if (timeBtwAttack >= 0) timeBtwAttack -= Time.deltaTime;
+    }
+    public virtual void Attack()
+    {
+        if (timeBtwAttack <= 0)
+        {
+            animator.SetTrigger("Attack");
+            OnAttack();
+            timeBtwAttack = delay;
+        }
+    }
+    protected abstract void OnAttack();
 }

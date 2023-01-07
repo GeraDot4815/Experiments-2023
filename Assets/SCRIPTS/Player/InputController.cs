@@ -22,4 +22,8 @@ public class InputController : MonoBehaviour
         inputAxis = value.Get<Vector2>();
         player.Move(inputAxis, speedCoof);
     }
+    private void OnFire()
+    {
+        player.weapon.Attack();
+    }
 }

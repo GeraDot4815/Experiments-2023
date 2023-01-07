@@ -15,4 +15,4 @@ MonoBehaviour:
   owner: {fileID: 0}
   speedCoof: 2
   startDist: 3
-  targetDistance: 0.8
+  targetDistance: 1.3

@@ -4,20 +4,20 @@ using UnityEngine;
 public abstract class Enemy : Creature
 {
     [SerializeField] protected EnemyState startState;
-    [SerializeField] protected float baseDamage;
+    [SerializeField] protected int baseDamage;
     protected EnemyState currentState;
     protected Player player;
     protected bool isAttacking;
     protected override void Awake()
     {
         base.Awake();
-        player = Player.Instance;
         isAttacking = false;
         SetState(startState);
     }
     protected override void Start()
     {
         base.Start();
+        player = Player.Instance;
     }
     protected override void Update()
     {

@@ -17,6 +17,10 @@ public class Kostya : Enemy
     private int chance;
 
     [SerializeField] private Transform attackZone;
+    protected override void Awake()
+    {
+        base.Awake();
+    }
     protected override void Start()
     {
         base.Start();
@@ -64,10 +68,13 @@ public class Kostya : Enemy
     }
     public void AttackAnimTrigger()
     {
-        Collider2D col = Physics2D.OverlapCircle(transform.position, attackRadius);
-        if (col != null && col.gameObject.layer==StaticVariables.PlayerLayer)
+        Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, attackRadius);
+        foreach (Collider2D col in cols)
         {
-            player.GetDamage(baseDamage);
+            if (col.gameObject.layer == StaticVariables.PlayerLayer)
+            {
+                player.GetDamage(baseDamage);
+            }
         }
         isAttacking = false;
     }
