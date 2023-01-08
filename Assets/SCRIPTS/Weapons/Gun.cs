@@ -21,6 +21,7 @@ public class Gun : Weapon
     {   
         Bullet nBullet = Instantiate(bullet, bulletPoint.position, transform.rotation);
         nBullet.transform.parent = null;
-        nBullet.baseDamage = baseDamage;
+        nBullet.damage = factDamage;
+        nBullet.damageType = damageType;
     }
 }

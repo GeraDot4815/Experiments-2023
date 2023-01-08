@@ -1,18 +1,20 @@
-using System;
 using UnityEngine;
 [RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(SpriteRenderer))]
-public class Creature : MonoBehaviour
+public abstract class Creature : MonoBehaviour
 {
-    [SerializeField] protected int maxHP;
-    protected int factHP;
+    [SerializeField] protected float maxHP;
+    protected float factHP;
 
     [SerializeField] protected float movingSpeed=0;
+    protected float factSpeed;
 
+    protected Level level;
     [SerializeField] protected ElementTypes.Elements weakness;
     [SerializeField] protected ElementTypes.Elements strengths;
+    protected const float damageTypeCoof=1.5f;
 
     protected Rigidbody2D rb;
     protected BoxCollider2D collider2D;
@@ -22,7 +24,7 @@ public class Creature : MonoBehaviour
     public bool canMove;
 
     public event OnChangeHP onChangeHP;
-    public delegate void OnChangeHP(int factHP, int maxHP);
+    public delegate void OnChangeHP(float factHP, float maxHP);
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -37,6 +39,11 @@ public class Creature : MonoBehaviour
     {
         canMove = true;
         factHP = maxHP;
+        factSpeed = movingSpeed;
+
+        level = Level.Instance;
+        GetBiomEffect(level.biom);
+
         onChangeHP?.Invoke(factHP, maxHP);
     }
     protected virtual void Update()
@@ -48,11 +55,21 @@ public class Creature : MonoBehaviour
             animator.SetBool("IsMove", false);
         }
     }
+    #region Баффы и дебаффы
+    private void GetBiomEffect(ElementTypes.Elements element)
+    {
+        if (weakness.HasFlag(element)) GetWeakness();
+        if (strengths.HasFlag(element)) GetStrengths();
+    }
+    protected abstract void GetWeakness();
+    protected abstract void GetStrengths();
+    #endregion
+    #region движение
     public virtual void Move(Vector2 direction, float speedCoof=1)
     {
         if (canMove)
         {
-            rb.velocity = direction * movingSpeed * speedCoof;
+            rb.velocity = direction * factSpeed * speedCoof;
 
             if (rb.velocity != Vector2.zero) animator.SetBool("IsMove", true);
             else animator.SetBool("IsMove", false);
@@ -65,6 +82,8 @@ public class Creature : MonoBehaviour
     {
         if(rb.velocity!=Vector2.zero) Move(Vector2.zero);
     }
+    #endregion
+    #region триггеры анимации
     /// <summary>
     /// Останавливает персонажа и включает анимацию покоя
     /// </summary>
@@ -78,15 +97,23 @@ public class Creature : MonoBehaviour
     {
         canMove = true;
     }
+    #endregion
     #region HP Change
-    public virtual void GetDamage(int damage)
+    public virtual void GetDamage(float damage, ElementTypes.Elements damageType)
+    {
+        float ndamage = damage;
+        if (weakness.HasFlag(damageType)) ndamage *= damageTypeCoof;
+        if (strengths.HasFlag(damageType)) ndamage /= damageTypeCoof;
+        GetDamage(ndamage);
+    }
+    public virtual void GetDamage(float damage)
     {
         Debug.Log(gameObject.name+" ДО "+factHP.ToString());
         factHP -= damage;
         onChangeHP?.Invoke(factHP, maxHP);
         Debug.Log(gameObject.name + " ПОСЛЕ " + factHP.ToString());
     }
-    public virtual void PlusHP(int heal)
+    public virtual void PlusHP(float heal)
     {
         Debug.Log(gameObject.name + " ДО " + factHP.ToString());
         factHP += heal;

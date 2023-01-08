@@ -3,10 +3,20 @@ using UnityEngine;
 [RequireComponent (typeof(Animator))]
 public abstract class Weapon : MonoBehaviour
 {
-    [SerializeField] protected int baseDamage;
+    [SerializeField] protected float baseDamage;
+    protected float factDamage;
     [SerializeField] protected ElementTypes.Elements damageType;
+    [SerializeField] protected ElementTypes.Elements weakness;
+    private const float elementDamageCoof=1.5f;
+    private const float elementDelayCoof = 1.5f;
+
+    protected Level level;
+
+
     [SerializeField] protected float delay;
+    protected float factDelay;
     protected float timeBtwAttack;
+
     protected Animator animator;
     protected Player player;
     protected Rigidbody2D playerRb;
@@ -18,11 +28,32 @@ public abstract class Weapon : MonoBehaviour
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
 
+        factDamage = baseDamage;
+        factDelay = delay;
+
+        level = Level.Instance;
+        GetBiomEffect(level.biom);
+
         timeBtwAttack = 0;
     }
     protected virtual void Update()
     {
         if (timeBtwAttack >= 0) timeBtwAttack -= Time.deltaTime;
+    }
+    private void GetBiomEffect(ElementTypes.Elements element)
+    {
+        if (weakness.HasFlag(element)) GetWeakness();
+        if (damageType.HasFlag(element)) GetStrengths();
+    }
+    protected virtual void GetWeakness()
+    {
+        factDamage /= elementDamageCoof;
+        factDelay *= elementDelayCoof;
+    }
+    protected virtual void GetStrengths()
+    {
+        factDamage *= elementDamageCoof;
+        factDelay /= elementDelayCoof;
     }
     public virtual void Attack()
     {
@@ -30,7 +61,7 @@ public abstract class Weapon : MonoBehaviour
         {
             animator.SetTrigger("Attack");
             OnAttack();
-            timeBtwAttack = delay;
+            timeBtwAttack = factDelay;
         }
     }
     protected abstract void OnAttack();

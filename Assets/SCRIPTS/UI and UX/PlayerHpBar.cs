@@ -9,7 +9,7 @@ public class PlayerHpBar : MonoBehaviour
         player = Player.Instance;
         player.onChangeHP += BarUpdate;
     }
-    private void BarUpdate(int factHP, int maxHP)
+    private void BarUpdate(float factHP, float maxHP)
     {
         float fill = 1000 / maxHP * factHP;
         hpBar.fillAmount = fill / 1000;

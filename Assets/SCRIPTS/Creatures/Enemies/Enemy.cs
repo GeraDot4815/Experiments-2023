@@ -1,13 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 public abstract class Enemy : Creature
 {
     [SerializeField] protected EnemyState startState;
-    [SerializeField] protected int baseDamage;
+    [SerializeField] protected float baseDamage;
+    [SerializeField] protected ElementTypes.Elements damageType;
     protected EnemyState currentState;
     protected Player player;
     protected bool isAttacking;
+    protected const float elementSpeedCoof = 1.25f;
     protected override void Awake()
     {
         base.Awake();
@@ -23,12 +23,21 @@ public abstract class Enemy : Creature
     {
         base.Update();
         UpdateStates();
-        if (!canMove)
-        {
-            rb.velocity = new Vector2(0, 0);
-        }
     }
-    public abstract void Attack();
+    protected override void GetStrengths()
+    {
+        factSpeed *= elementSpeedCoof;
+    }
+    protected override void GetWeakness()
+    {
+        factSpeed /= elementSpeedCoof;
+    }
+    public virtual void Attack()
+    {
+        isAttacking = true;
+        canMove = false;
+        animator.SetTrigger("Attack");
+    }
     #region смена состояний
     protected virtual void UpdateStates()
     {

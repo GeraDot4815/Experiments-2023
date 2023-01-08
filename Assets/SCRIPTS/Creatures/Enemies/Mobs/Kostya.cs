@@ -12,8 +12,8 @@ public class Kostya : Enemy
     [SerializeField] private float attackDist;
     [SerializeField] private float attackRadius;
 
-    [SerializeField] private int percentChanceOfPassive;
-    [SerializeField] private int percentChanceOfStay;
+    [SerializeField] private int chanceOfPassive;
+    [SerializeField] private int chanceOfStay;
     private int chance;
 
     [SerializeField] private Transform attackZone;
@@ -42,7 +42,7 @@ public class Kostya : Enemy
             return;
         }
         chance = Random.Range(1, 101);
-        if (chance >= percentChanceOfPassive)
+        if (chance >= chanceOfPassive)
         {
             float dist = Vector2.Distance(transform.position, player.transform.position);
             if (dist <= attackDist) SetState(attackState);
@@ -53,7 +53,7 @@ public class Kostya : Enemy
         else
         {
             chance = Random.Range(1, 101);
-            if (chance >= percentChanceOfStay)
+            if (chance >= chanceOfStay)
             {
                 SetState(keepDistanceState);
             }
@@ -62,9 +62,7 @@ public class Kostya : Enemy
     }
     public override void Attack()
     {
-        isAttacking = true;
-        canMove = false;
-        animator.SetTrigger("Attack");
+        base.Attack();
     }
     public void AttackAnimTrigger()
     {
@@ -73,7 +71,7 @@ public class Kostya : Enemy
         {
             if (col.gameObject.layer == StaticVariables.PlayerLayer)
             {
-                player.GetDamage(baseDamage);
+                player.GetDamage(baseDamage, damageType);
             }
         }
         isAttacking = false;
@@ -82,13 +80,10 @@ public class Kostya : Enemy
     {
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, seePlayerDist);
-
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, runDist);
-
         Gizmos.color = Color.magenta;
         Gizmos.DrawWireSphere(transform.position, attackDist);
-
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRadius);
     }

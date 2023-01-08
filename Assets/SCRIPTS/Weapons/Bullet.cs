@@ -1,12 +1,11 @@
 using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(BoxCollider2D))]
 public class Bullet : MonoBehaviour
 {
-    [HideInInspector] public int baseDamage;
+    [HideInInspector] public float damage;
+    [HideInInspector] public ElementTypes.Elements damageType;
     [SerializeField] protected float speed=1;
     [SerializeField] protected int lifeTime=10;
-    private float checkDist = 0.1f;
     protected Rigidbody2D rb;
     protected virtual void Start()
     {
@@ -23,7 +22,7 @@ public class Bullet : MonoBehaviour
     }
     protected virtual void OnHit(Creature target)
     {
-        if(target!=null) target.GetDamage(baseDamage);
+        if(target!=null) target.GetDamage(damage, damageType);
         Destroy(gameObject);
     }
     protected virtual void OnHit()

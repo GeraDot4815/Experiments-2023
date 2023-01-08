@@ -3,7 +3,6 @@ using UnityEngine.InputSystem;
 public class InputController : MonoBehaviour
 {
     public static InputController Instance;
-
     public Vector2 inputAxis { get; private set; }
 
     private Player player;
@@ -17,13 +16,16 @@ public class InputController : MonoBehaviour
     {
         player = Player.Instance;
     }
-    private void OnMove(InputValue value)
+    public void OnMove(InputAction.CallbackContext context)
     {
-        inputAxis = value.Get<Vector2>();
-        player.Move(inputAxis, speedCoof);
+        if (context.performed)
+        {
+            inputAxis = context.ReadValue<Vector2>();
+            player.Move(inputAxis, speedCoof);
+        }
     }
-    private void OnFire()
+    public void OnFire(InputAction.CallbackContext context)
     {
-        player.weapon.Attack();
+        if(context.performed) player.weapon.Attack();
     }
 }

@@ -100,7 +100,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseDamage: 1
-  damageType: 0
+  damageType: 1
+  weakness: 2
   delay: 0.7
   bullet: {fileID: 8332996566319634548, guid: 451987b77641ce34b894b2299f3f0158, type: 3}
   bulletPoint: {fileID: 3626734181679631270}

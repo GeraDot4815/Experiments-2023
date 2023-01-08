@@ -24,7 +24,7 @@ public class Sword : Weapon
                 if (layer == StaticVariables.DamagingLayers[i])
                 {
                     Creature creature = col.GetComponent<Creature>();
-                    if(creature!=null) creature.GetDamage(baseDamage);
+                    if(creature!=null) creature.GetDamage(factDamage, damageType);
                 }
             }
         }

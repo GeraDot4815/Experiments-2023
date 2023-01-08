@@ -10,5 +10,7 @@ public static class ElementTypes
         Air=1<<2,
         Poison=1<<3,
         Metal=1<<4,
+        Space=1<<5,
+        GreenGrass=1<<6
     }
 }
