@@ -1,7 +1,7 @@
 using UnityEngine;
 public class Mage : Enemy
 {
-    [SerializeField] protected Bullet bullet;
+    [SerializeField] protected Bullet bullet; //Маг частично перенимает алгоритм Огнестрела, имеет с ним дублирование кода
     [SerializeField] protected float shotDelay;
     protected float factDelay;
     private float timeBtwAttack;
@@ -35,7 +35,7 @@ public class Mage : Enemy
         base.Update();
         if (timeBtwAttack > 0) timeBtwAttack -= Time.deltaTime;
     }
-    protected override void GetStrengths()
+    protected override void GetStrengths()//Помимо базовых изменений, меняет скорость атаки
     {
         base.GetStrengths();
         shotDelay /= elementDelaycoof;
@@ -45,7 +45,7 @@ public class Mage : Enemy
         base.GetWeakness();
         shotDelay *= elementDelaycoof;
     }
-    protected override void ChangeState()
+    protected override void ChangeState()//Маг ведет как эльф без чести. Почти всегда убегает, двигается быстро. На дальнем расстоянии закидывает сосульками
     {
         if (canMove && !isAttacking)
         {
@@ -56,7 +56,7 @@ public class Mage : Enemy
             else if (dist > maxDist) SetState(moveToPlayerState);
         }
     }
-    private void RandomChangeState(int chanceOfAgressive, EnemyState passiveState)
+    private void RandomChangeState(int chanceOfAgressive, EnemyState passiveState)//Тут алгоритм понятнее, че у Кости. На выбор дается шанс на действие и противоположное действие
     {
         int chance = Random.Range(1, 101);
         if (chance > chanceOfAgressive) SetState(passiveState);

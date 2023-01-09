@@ -56,7 +56,8 @@ public abstract class Creature : MonoBehaviour
         }
     }
     #region Баффы и дебаффы
-    private void GetBiomEffect(ElementTypes.Elements element)
+    private void GetBiomEffect(ElementTypes.Elements element)//Вызываем у всех соответствующие эффекты,
+                                                             //все, кроме игрока (пока) получают коэффицент восприимчивости к урону
     {
         if (weakness.HasFlag(element)) GetWeakness();
         if (strengths.HasFlag(element)) GetStrengths();
@@ -65,7 +66,8 @@ public abstract class Creature : MonoBehaviour
     protected abstract void GetStrengths();
     #endregion
     #region движение
-    public virtual void Move(Vector2 direction, float speedCoof=1)
+    public virtual void Move(Vector2 direction, float speedCoof=1)//Вызывается в состояниях во время их работы а также у игрока в Инпут системе
+                                                                  //Есть пара рудиментов, можно перепроверить
     {
         if (canMove)
         {
@@ -73,11 +75,14 @@ public abstract class Creature : MonoBehaviour
 
             if (rb.velocity != Vector2.zero) animator.SetBool("IsMove", true);
             else animator.SetBool("IsMove", false);
-
+            //Поворачиваем спрайты, поэтому при рисовании надо учитывать возможность отзеркаливания
             if (rb.velocity.x > 0) spriteRenderer.flipX = false;
             else if (rb.velocity.x < 0) spriteRenderer.flipX = true;
         }
     }
+    /// <summary>
+    ///Просто останавливает движение
+    /// </summary>
     public void StopMoving()
     {
         if(rb.velocity!=Vector2.zero) Move(Vector2.zero);
@@ -93,12 +98,20 @@ public abstract class Creature : MonoBehaviour
         canMove = false;
         animator.SetTrigger("Idle");
     }
+    /// <summary>
+    /// Необходим для продолжения движения
+    /// </summary>
     public void ContinueMoveAnimTrigger()
     {
         canMove = true;
     }
     #endregion
     #region HP Change
+    /// <summary>
+    /// Перегрузка для абобусов, восприимчивых к типу урона
+    /// </summary>
+    /// <param name="damage"></param>
+    /// <param name="damageType"></param>
     public virtual void GetDamage(float damage, ElementTypes.Elements damageType)
     {
         float ndamage = damage;

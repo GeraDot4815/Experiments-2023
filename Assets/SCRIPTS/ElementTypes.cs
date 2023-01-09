@@ -3,7 +3,7 @@ using System;
 public static class ElementTypes 
 {
     [Flags]
-    public enum Elements
+    public enum Elements //Типы биомов и видов урона (стихии)
     {
         Fire=1<<0,
         Ice=1<<1,

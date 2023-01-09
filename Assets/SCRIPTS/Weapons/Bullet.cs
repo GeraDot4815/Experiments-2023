@@ -2,8 +2,8 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class Bullet : MonoBehaviour
 {
-    [HideInInspector] public float damage;
-    [HideInInspector] public ElementTypes.Elements damageType;
+    [HideInInspector] public float damage;//Передается от оружия
+    [HideInInspector] public ElementTypes.Elements damageType;//Передается от оружия
     [SerializeField] protected float speed=1;
     [SerializeField] protected int lifeTime=10;
     protected Rigidbody2D rb;
@@ -20,7 +20,7 @@ public class Bullet : MonoBehaviour
     {
         rb.velocity = transform.right*speed;
     }
-    protected virtual void OnHit(Creature target)
+    protected virtual void OnHit(Creature target)//Если попал во что-то живое, передаем ему урон, иначе тупо "пиф-паф"
     {
         if(target!=null) target.GetDamage(damage, damageType);
         Destroy(gameObject);
@@ -32,7 +32,7 @@ public class Bullet : MonoBehaviour
     protected virtual void OnCollisionEnter2D(Collision2D collision)
     {
         int layer = collision.gameObject.layer;
-        for(int i=0; i<StaticVariables.DamagingLayers.Length; i++)
+        for(int i=0; i<StaticVariables.DamagingLayers.Length; i++)//Чекаем, есть ли клиент в ченом списке смертных
         {
             if (layer == StaticVariables.DamagingLayers[i])
             {

@@ -27,13 +27,14 @@ public class Kostya : Enemy
         chance = 0;
         attackZone.localScale = new Vector3(attackRadius, attackRadius, 1);
     }
-    protected override void ChangeState()
+    protected override void ChangeState()// ост€ ведет себ€ как ленивый јбоба, которому вообще пох, и иногда о просто уходит
     {
         if (canMove && !isAttacking)
         {
             RandomChangeState();
         }
     }
+    // “ут странна€ логика, которую можно упростить, но смысл в этом есть
     private void RandomChangeState()
     {
         if (currentState == keepDistanceState)
@@ -64,7 +65,7 @@ public class Kostya : Enemy
     {
         base.Attack();
     }
-    public void AttackAnimTrigger()
+    public void AttackAnimTrigger()//ќсновное действие атаки происходит здесь, как и у всех абобусов
     {
         Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, attackRadius);
         foreach (Collider2D col in cols)

@@ -3,7 +3,9 @@ using UnityEngine;
 public class EnKeepDistanceState : EnemyState
 {
     [SerializeField] private float speedCoof = 1;
+    [Header("Где нас могут поймать, и включится другое состояние (0-нигде)")]
     [SerializeField] private float minDist = 0.1f;
+    [Header("Как далеко убегаем")]
     [SerializeField] private float targetDistance = 0.1f;
     public override void Run()
     {

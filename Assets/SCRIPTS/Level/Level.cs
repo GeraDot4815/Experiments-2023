@@ -16,9 +16,12 @@ public class Level : MonoBehaviour
         Instance = this;
         ChangeTiles();
     }
+    /// <summary>
+    /// Меняет тайлы на набор, соответствующий биому
+    /// </summary>
     private void ChangeTiles()
     {
-        switch (biom)
+        switch (biom)//Возможно, можно привязать набор к биому, но пока простой перебор. Это лучше ручной замены одинаковых объектов уровней
         {
             case ElementTypes.Elements.GreenGrass:
                 MySwipeTiles(greenTiles);
@@ -34,6 +37,10 @@ public class Level : MonoBehaviour
                 break;
         }
     }
+    /// <summary>
+    /// Локальное упрощение функции класса Тайлов. Можно расширять и немного оптимизировать (не в цикл делать)
+    /// </summary>
+    /// <param name="holder"></param>
     private void MySwipeTiles(TileHolder holder)
     {
         foreach (Tilemap tmap in tileMaps)

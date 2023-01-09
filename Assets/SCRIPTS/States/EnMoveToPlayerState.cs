@@ -3,7 +3,9 @@ using UnityEngine;
 public class EnMoveToPlayerState : EnemyState
 {
     [SerializeField] private float speedCoof=1;
+    [Header("С какой дистанции можно начинать двигаться")]
     [SerializeField] private float startDist=0;
+    [Header("Как близко подходим")]
     [SerializeField] private float targetDistance=0.1f;
     public override void Run()
     {

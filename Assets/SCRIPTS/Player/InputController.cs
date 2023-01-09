@@ -16,6 +16,7 @@ public class InputController : MonoBehaviour
     {
         player = Player.Instance;
     }
+    // подробнее можно глянуть здесь: https://www.youtube.com/watch?v=Yjee_e4fICc
     public void OnMove(InputAction.CallbackContext context)
     {
         if (context.performed)

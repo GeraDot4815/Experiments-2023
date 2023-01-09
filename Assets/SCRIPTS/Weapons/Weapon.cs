@@ -5,6 +5,7 @@ public abstract class Weapon : MonoBehaviour
 {
     [SerializeField] protected float baseDamage;
     protected float factDamage;
+    //Оружие может получить усиление урона и скорости атаки или, наоборот, дебафф
     [SerializeField] protected ElementTypes.Elements damageType;
     [SerializeField] protected ElementTypes.Elements weakness;
     private const float elementDamageCoof=1.5f;
@@ -40,6 +41,7 @@ public abstract class Weapon : MonoBehaviour
     {
         if (timeBtwAttack >= 0) timeBtwAttack -= Time.deltaTime;
     }
+    #region получаем эффекты от среды
     private void GetBiomEffect(ElementTypes.Elements element)
     {
         if (weakness.HasFlag(element)) GetWeakness();
@@ -55,7 +57,8 @@ public abstract class Weapon : MonoBehaviour
         factDamage *= elementDamageCoof;
         factDelay /= elementDelayCoof;
     }
-    public virtual void Attack()
+    #endregion
+    public virtual void Attack()//Подобная структура общая почти для всех
     {
         if (timeBtwAttack <= 0)
         {
@@ -64,5 +67,5 @@ public abstract class Weapon : MonoBehaviour
             timeBtwAttack = factDelay;
         }
     }
-    protected abstract void OnAttack();
+    protected abstract void OnAttack();//А это уже меняем по необходимости
 }

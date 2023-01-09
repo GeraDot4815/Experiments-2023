@@ -28,11 +28,11 @@ public class Player : Creature
             throw new System.Exception("No Weapon");
         }
     }
-    protected override void GetStrengths()
+    protected override void GetStrengths()// У Чебупели нет сильных сторон
     {
         return;
     }
-    protected override void GetWeakness()
+    protected override void GetWeakness()// Подключаем уникальные эффекты от локаций
     {
         switch (level.biom)
         {
@@ -56,7 +56,7 @@ public class Player : Creature
             GetDamage(elementSpaceDamage);
         }
     }
-    public override void GetDamage(float damage, ElementTypes.Elements damageType)
+    public override void GetDamage(float damage, ElementTypes.Elements damageType)//Т.к. доп урона от стихий не получаем, мето тупо игнорит тип урона
     {
         GetDamage(damage);
     }
@@ -65,7 +65,10 @@ public class Player : Creature
         base.Move(direction, speedCoof);
         if (canMove && rb.velocity.x!=0)
         {
+            //Перебрасываем оружие в другую руку при повороте
             weaponPoint.localPosition = new Vector3(Mathf.Abs(weaponPoint.localPosition.x) * Mathf.Sign(rb.velocity.x), weaponPoint.localPosition.y);
+            //Если Саня на льду, то толкаем дополнительно импульсом (при отжатии, почему-то всегда выбирает перпендикулярный вектор,
+            //скорее всего последнюю из 2х отжатых кнопок)
             if (level.biom.HasFlag(ElementTypes.Elements.Ice)) rb.AddForce(direction * elementIceForce, ForceMode2D.Impulse);
         }
     }
