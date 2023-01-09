@@ -3923,7 +3923,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1932902808735948601, guid: a3ff502ceb145274b8677e501ad95bb5, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a3ff502ceb145274b8677e501ad95bb5, type: 3}
@@ -3971,7 +3971,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0052cc098c28a5b4e8c3802881153744, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <biom>k__BackingField: 2
+  <biom>k__BackingField: 64
   tileMaps:
   - {fileID: 50348862}
   - {fileID: 1097341399}
@@ -4207,7 +4207,7 @@ Camera:
   far clip plane: 10
   field of view: 60
   orthographic: 1
-  orthographic size: 8
+  orthographic size: 4
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -7428,7 +7428,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4007489716913465966, guid: 60c1fb4fda38c9a419aa3f2473e687f6, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4045108294243155708, guid: 60c1fb4fda38c9a419aa3f2473e687f6, type: 3}
       propertyPath: m_RootOrder
@@ -7604,6 +7604,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5008343762121633037, guid: af9afedbc42f4054d949d675038f9e1b, type: 3}
+      propertyPath: elementIceForce
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: af9afedbc42f4054d949d675038f9e1b, type: 3}
 --- !u!1 &2116381901
@@ -7645,7 +7649,7 @@ MonoBehaviour:
   m_Follow: {fileID: 694429029}
   m_Lens:
     FieldOfView: 60
-    OrthographicSize: 8
+    OrthographicSize: 4
     NearClipPlane: 0.3
     FarClipPlane: 10
     Dutch: 0

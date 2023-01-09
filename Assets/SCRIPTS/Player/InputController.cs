@@ -19,11 +19,8 @@ public class InputController : MonoBehaviour
     // подробнее можно глянуть здесь: https://www.youtube.com/watch?v=Yjee_e4fICc
     public void OnMove(InputAction.CallbackContext context)
     {
-        if (context.performed)
-        {
-            inputAxis = context.ReadValue<Vector2>();
-            player.Move(inputAxis, speedCoof);
-        }
+        inputAxis = context.ReadValue<Vector2>();
+        player.Move(inputAxis, speedCoof);
     }
     public void OnFire(InputAction.CallbackContext context)
     {

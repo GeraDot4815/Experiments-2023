@@ -11,6 +11,7 @@ public class Player : Creature
     private const float elementSpaceDamage = 1f;
     [SerializeField] private float elementIceForce = 20f;
     private IEnumerator spaceRoutine;
+    private bool useIce;
     private void Awake()
     {
         base.Awake();
@@ -34,6 +35,7 @@ public class Player : Creature
     }
     protected override void GetWeakness()// Подключаем уникальные эффекты от локаций
     {
+        useIce = false;
         switch (level.biom)
         {
             case ElementTypes.Elements.Fire:
@@ -41,6 +43,7 @@ public class Player : Creature
                 break;
             case ElementTypes.Elements.Ice:
                 factSpeed *= elementSpeedCoof;
+                useIce = true;
                 break;
             case ElementTypes.Elements.Space:
                 spaceRoutine = SpaceEffectCoroutine();
@@ -67,9 +70,7 @@ public class Player : Creature
         {
             //Перебрасываем оружие в другую руку при повороте
             weaponPoint.localPosition = new Vector3(Mathf.Abs(weaponPoint.localPosition.x) * Mathf.Sign(rb.velocity.x), weaponPoint.localPosition.y);
-            //Если Саня на льду, то толкаем дополнительно импульсом (при отжатии, почему-то всегда выбирает перпендикулярный вектор,
-            //скорее всего последнюю из 2х отжатых кнопок)
-            if (level.biom.HasFlag(ElementTypes.Elements.Ice)) rb.AddForce(direction * elementIceForce, ForceMode2D.Impulse);
+            //if (useIce) rb.AddForce(direction * elementIceForce, ForceMode2D.Impulse);
         }
     }
 }
